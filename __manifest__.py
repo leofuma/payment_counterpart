@@ -2,18 +2,17 @@
 {
     'name': 'Payment Counterpart',
     'version': '0.01',
-    'author': 'Reserva',
+    'author': 'Ing. Leonel Fuentes Marrero',
     'category': 'Extra',
-    'summary': 'Check',
+    'summary': 'Payment Counterpart Invoice/Credit Note',
     'depends': [
 	    "account_check_printing",
     ],
     'description': """
+    Module that allows you to match invoices with credit notes and vice versa, 
+    in addition to odoo natural payments in the same interface in a generic way.
     """,
     'data': [
-        "security/ir.model.access.csv",
-	    "data/report_paperformat.xml",
-	    "report_check.xml",
         "views/account_payment_view.xml",
     ],
 }

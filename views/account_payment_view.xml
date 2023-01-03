@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_account_payment_form_inherit" model="ir.ui.view">
+            <field name="name">account.payment.form</field>
+            <field name="model">account.payment</field>
+            <field name="inherit_id" ref="account.view_account_payment_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_type']" position="replace">
+                    <field name="partner_type" widget="selection"
+                           attrs="{'required': [('state', '=', 'draft'), ('payment_type', 'in', ('inbound', 'outbound'))], 'invisible': [('payment_type', 'not in', ('inbound', 'outbound'))], 'readonly': [('state', '!=', 'draft')]}"/>
+                </xpath>
+                <xpath expr="//field[@name='partner_id']" position="replace">
+                    <field name="partner_id"
+                           attrs="{'required': [('state', '=', 'draft'), ('payment_type', 'in', ('inbound', 'outbound'))], 'invisible': [('payment_type', 'not in', ('inbound', 'outbound'))], 'readonly': [('state', '!=', 'draft')]}"
+                           context="{'default_is_company': True, 'default_supplier': payment_type == 'outbound', 'default_customer': payment_type == 'inbound'}"/>
+                </xpath>
+                <xpath expr="//field[@name='payment_transaction_id']" position="after">
+                    <field name="automatic" invisible="1"/>
+                </xpath>
+                <xpath expr="//sheet" position="inside">
+                    <notebook>
+                        <page string="Payment Information"  name="payment_information">
+                            <field name="line_ids" nolabel="1" attrs="{'readonly':[('state','!=','draft')]}">
+                                <tree editable="bottom">
+                                    <field name="invoice_id" required="1" context="{'expand_invoice_name': True}"/>
+                                    <field name="account_id" readonly="1"/>
+                                    <field name="amount_total" readonly="1" sum="Total"/>
+                                    <field name="residual" readonly="1" sum="Total"/>
+                                    <field name="reconcile"/>
+                                    <field name="pay_automatic" invisible="1"/>
+                                    <field name="amount" required="1"
+                                           attrs="{'column_invisible':[('parent.state','!=','draft')]}" sum="Total"/>
+                                    <field name="amount_posted"
+                                           attrs="{'column_invisible':[('parent.state','=','draft')]}" sum="Total"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                    <notebook>
+                        <page string="Funding Information">
+                            <field name="line_funding_ids" nolabel="1" attrs="{'readonly':[('state','!=','draft')]}">
+                                <tree editable="bottom">
+                                    <field name="invoice_id" required="1" context="{'expand_invoice_name': True}"/>
+                                    <field name="account_id" readonly="1"/>
+                                    <field name="amount_total" readonly="1" sum="Total"/>
+                                    <field name="residual" readonly="1" sum="Total"/>
+                                    <field name="reconcile" string="Reconcile"/>
+                                    <field name="pay_automatic" invisible="1"/>
+                                    <field name="amount" required="1"
+                                           attrs="{'column_invisible':[('parent.state','!=','draft')]}" sum="Total"/>
+                                    <field name="amount_posted"
+                                           attrs="{'column_invisible':[('parent.state','=','draft')]}" sum="Total"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                    <group>
+                        <group></group>
+                        <group attrs="{'invisible': [('payment_diff', '=', 0.0)]}">
+                            <label for="payment_diff"/>
+                            <div>
+                                <field name="payment_diff"/>
+                                <br/>
+                                <field name="payment_diff_handling" widget="radio" nolabel="1"
+                                       attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            </div>
+                            <field name="writeoff_account_id" string="Post Difference In"
+                                   attrs="{'invisible': [('payment_diff_handling','=','open')], 'required': [('payment_diff_handling', '=', 'reconcile')],
+                                   		   'readonly': [('state', '!=', 'draft')]}"/>
+                        </group>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

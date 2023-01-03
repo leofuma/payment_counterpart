@@ -357,7 +357,6 @@ class AccountPaymentLine(models.Model):
     amount = fields.Monetary('Allocation', currency_field='currency_id')
     reconcile = fields.Boolean('Full Reconcile', readonly=False)
 
-    # add #54 Ticket
     funding = fields.Boolean('Funding ?', compute='_compute_funding', store=True)
     amount_posted = fields.Monetary('Allocation', currency_field='currency_id', compute='_compute_amount_posted')
     type = fields.Selection('Type', related="invoice_id.type")
