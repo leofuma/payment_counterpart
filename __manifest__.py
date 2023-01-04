@@ -11,6 +11,7 @@
     'description': """
     Module that allows you to match invoices with credit notes and vice versa, 
     in addition to odoo natural payments in the same interface in a generic way.
+    It also serves those partners who are customers and suppliers at the same time.
     """,
     'data': [
         "views/account_payment_view.xml",
