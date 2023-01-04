@@ -17,7 +17,7 @@
                            context="{'default_is_company': True, 'default_supplier': payment_type == 'outbound', 'default_customer': payment_type == 'inbound'}"/>
                 </xpath>
                 <xpath expr="//field[@name='payment_transaction_id']" position="after">
-                    <field name="automatic" invisible="1"/>
+                    <field name="automatic"/>
                 </xpath>
                 <xpath expr="//sheet" position="inside">
                     <notebook>

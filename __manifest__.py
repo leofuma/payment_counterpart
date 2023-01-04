@@ -6,7 +6,7 @@
     'category': 'Extra',
     'summary': 'Payment Counterpart Invoice/Credit Note',
     'depends': [
-	    "account_check_printing",
+	    "account_check_printing", "snailmail_account"
     ],
     'description': """
     Module that allows you to match invoices with credit notes and vice versa, 
@@ -15,5 +15,9 @@
     'data': [
         "views/account_payment_view.xml",
     ],
+    'installable': True,
+    'application': True,
+    'auto_install': False,
+    'license': 'LGPL-3',
 }
 

@@ -112,10 +112,10 @@ class AccountPayment(models.Model):
                 for invo in self.line_ids:
                     invo.amount = 0
                     invo.reconcile = False
-            # semi-Automatic version
-            amount_funding = sum(x.amount for x in self.line_funding_ids)
-            if amount_funding > 0 or self.amount > 0:
-                self.automatic = False
+            # # semi-Automatic version
+            # amount_funding = sum(x.amount for x in self.line_funding_ids)
+            # if amount_funding > 0 or self.amount > 0:
+            #     self.automatic = False
         else:
             for l in self.line_funding_ids:
                 if l.reconcile == True:
@@ -210,8 +210,6 @@ class AccountPayment(models.Model):
                 vals = {'payment_id': self.id,
                         'invoice_id': invoice.id,
                         'residual': invoice.residual,
-                        # 'amount': sum(abs(move.balance) for move in invoice.payment_move_line_ids if  move.payment_id.id == self.id),
-                        # 'amount': sum(abs(move.balance) for move in invoice.payment_move_line_ids if move.payment_id.id == self.id),
                         }
                 if invoice.residual <= payment_amount:
                     vals['reconcile'] = True
