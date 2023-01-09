@@ -243,6 +243,7 @@ class AccountPayment(models.Model):
                     line.invoice_id.register_payment(counterpart_aml)
                     line.residual_temp = line.residual + line.amount
 
+            # Write line corresponding to invoice funding
             for line in self.line_funding_ids:
                 if line.amount:
                     l_amount = line.amount * (line.payment_id.payment_type in ('outbound', 'transfer') and 1 or -1)
